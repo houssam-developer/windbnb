@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,500;0,600;0,700;1,400&display=swap');
 
 :root {
 	--ff-primary: 'Poppins', Arial, Helvetica, sans-serif;
-
+	--ff-secondary: 'Mulish', Arial, Helvetica, sans-serif;
 
 	--common-gap: .3em;
 
@@ -29,6 +30,7 @@
 
 	--btn-padding-block: .5em;
 	--btn-padding-inline: 1.4em;
+	--btn-border-radius: 7px;
 
 	--btn-fg-light-color-val: #444;
 	--btn-hover-dark-color: var(--btn-color--white);
@@ -41,6 +43,9 @@
 	--button-bg-color: #ddd;
 	--button-border-color: transparent;
 	--button-hover-color: var(--btn-color--gray);
+
+	--cc-box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+	--cc-box-shadow--light: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
 * {
@@ -123,6 +128,10 @@ h3 {
 	margin-bottom: 1em;
 }
 
+.hidden {
+	display: none;
+}
+
 @media screen and (min-width: 500px) {
 	:root {
 		--common-gap: 1em;
@@ -141,6 +150,7 @@ h3 {
 		flex-direction: row;
 	}
 }
+
 
 .btn {
 	padding: var(--btn-padding-block) var(--btn-padding-inline);
@@ -294,7 +304,6 @@ h3 {
 	--btn-padding-block: .9em;
 	--btn-padding-inline: 1.8em;
 }
-
 
 .created-by {
 	text-align: center;

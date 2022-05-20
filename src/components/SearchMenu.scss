@@ -1,0 +1,152 @@
+:root {
+	--search-menu--br: 10px;
+}
+
+.search-modal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	min-height: 70%;
+	width: 100%;
+
+	display: flex;
+	flex-direction: column;
+
+	border: 2px solid red;
+	background-color: #fff;
+
+	button {
+		background-color: inherit;
+		border: none;
+		outline: none;
+		cursor: pointer;
+	}
+
+	&__head {
+		padding: 1em;
+
+		border: 2px solid red;
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		h3 {
+			font-family: var(--ff-secondary);
+			font-weight: 700;
+			color: #333;
+		}
+
+		svg {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	&__content {
+		flex-grow: 1;
+		width: 100%;
+		border: 2px solid red;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		margin-left: auto;
+		margin-right: auto;
+		border-radius: var(--search-menu--br);
+		box-shadow: var(--cc-box-shadow--light);
+
+		&__entries {}
+
+		&__results {
+			flex-grow: 1;
+
+		}
+
+		input,
+		button {
+			padding: .7em 1em;
+			cursor: pointer;
+			font-family: var(--ff-secondary);
+			font-weight: 400;
+			font-size: .9rem;
+
+			color: #BDBDBD;
+			background-color: #fff;
+			border: 1px solid #f3f3f3;
+
+			&:hover {
+				background-color: #f3f3f3;
+			}
+		}
+
+		input+input,
+		input+button {
+			border-left: transparent;
+		}
+
+		&__btn-location {
+			border-top-left-radius: var(--search-menu--br);
+			border-bottom-left-radius: var(--search-menu--br);
+		}
+
+		&__btn-search {
+			border-top-right-radius: var(--search-menu--br);
+			border-bottom-right-radius: var(--search-menu--br);
+		}
+
+		svg {
+			width: 24px;
+			height: 24px;
+			fill: #EB5757E5;
+		}
+	}
+}
+
+.search-menu {
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: var(--search-menu--br);
+	box-shadow: var(--cc-box-shadow--light);
+
+
+	input,
+	button {
+		padding: .7em 1em;
+		cursor: pointer;
+		font-family: var(--ff-secondary);
+		font-weight: 400;
+		font-size: .9rem;
+
+		color: #BDBDBD;
+		background-color: #fff;
+		border: 1px solid #f3f3f3;
+
+		&:hover {
+			background-color: #f3f3f3;
+		}
+	}
+
+	input+input,
+	input+button {
+		border-left: transparent;
+	}
+
+	&__btn-location {
+		border-top-left-radius: var(--search-menu--br);
+		border-bottom-left-radius: var(--search-menu--br);
+	}
+
+	&__btn-search {
+		border-top-right-radius: var(--search-menu--br);
+		border-bottom-right-radius: var(--search-menu--br);
+	}
+
+	svg {
+		width: 24px;
+		height: 24px;
+		fill: #EB5757E5;
+	}
+}
