@@ -78,6 +78,10 @@ h3 {
 	font-family: var(--ff-primary);
 }
 
+ul {
+	list-style: none;
+}
+
 .container {
 	min-height: calc(100vh - 1em);
 	margin: 0 auto;
