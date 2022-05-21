@@ -16,8 +16,14 @@ function SearchMenu() {
 
 				<form className="search-modal__content">
 					<div className="search-modal__content__entries">
-						<input type='button' className='search-menu__btn-location' value='Location' placeholder='Location'></input>
-						<input type='button' className='search-menu__btn-guests' value='Add Guests' placeholder='Add Guests'></input>
+						<div className="search-modal__content__entries__container-location">
+							<label>location</label>
+							<input type='text' value='Helsinki, Finland' placeholder='Location'></input>
+						</div>
+						<div className="search-modal__content__entries__container-guests">
+							<label>guests</label>
+							<input type='text' value='' placeholder='Add Guests'></input>
+						</div>
 					</div>
 
 					<div className="search-modal__content__results">
