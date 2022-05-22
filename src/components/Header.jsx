@@ -1,5 +1,4 @@
 import logo from '../assets/logo.svg'
-import './Header.scss';
 import SearchMenu from './SearchMenu';
 
 
