@@ -5,7 +5,7 @@ import Header from './components/Header'
 function App() {
 
 	return (
-		<div className="App">
+		<div className="p-4 max-w-5xl mx-auto">
 			<Header />
 		</div>
 	)

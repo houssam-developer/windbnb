@@ -4,8 +4,10 @@ import SearchMenu from './SearchMenu';
 
 function Header() {
 	return (
-		<header className="header">
-			<img src={logo} className="header__logo" alt="logo" />
+		<header className="flex flex-col gap-6 sm:flex-row sm:justify-between w-full">
+			<div className='min-w-[70px] min-h-[14px]'>
+				<img src={logo} className="object-cover" alt="logo" />
+			</div>
 			<SearchMenu />
 		</header>
 	)
