@@ -46,6 +46,39 @@ function SearchMenu() {
 		const [displayLocationResults, setDisplayLocationResults] = useState('hidden');
 		const [displayGuestsResults, setDisplayGuestsResults] = useState('hidden');
 
+		const [counterAdults, setCounterAdults] = useState(0);
+		const [counterChildren, setCounterChildren] = useState(0);
+
+		function handleAdultsBtnMinus(e) {
+			e.preventDefault();
+			console.log('AdultsBtnMinus');
+			if (counterAdults < 1) { setCounterAdults('0'); return; }
+			setCounterAdults((currentVal) => currentVal - 1);
+		}
+
+		function handleAdultsBtnPlus(e) {
+			e.preventDefault();
+			console.log('AdultsBtnPlus');
+			if (counterAdults == 10) { alert('Max Adults Guests is 10'); return; }
+			setCounterAdults((currentVal) => currentVal + 1);
+		}
+
+		function handleChildrenBtnMinus(e) {
+			e.preventDefault();
+			console.log('ChildrenBtnMinus');
+			if (counterChildren < 1) { setCounterChildren('0'); return; }
+			setCounterChildren((currentVal) => currentVal - 1);
+		}
+
+		function handleChildrenBtnPlus(e) {
+			e.preventDefault();
+			console.log('ChildrenBtnMinus');
+			if (counterChildren == 10) { alert('Max Children Guests is 10'); return; }
+			setCounterChildren((currentVal) => currentVal + 1);
+		}
+
+
+
 		function updateDisplayResult(targetInput) {
 			if (targetInput === TARGET_INPUT_LOCATION) {
 				setDisplayGuestsResults('hidden');
@@ -78,9 +111,9 @@ function SearchMenu() {
 
 				<div className='flex flex-col sm:flex-row sm:items-center sm:justify-around shadow rounded-xl border-[1px] focus-within:border-orange-200 w-full md:w-[768px] mx-auto'>
 					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
-						<label className='text-[9px] uppercase font-bold'>location</label>
+						<label htmlFor='location' className='text-[9px] uppercase font-bold'>location</label>
 						<input className='text-sm focus:outline-none border-none' type="text"
-							placeholder='Helsinki, Finland' onClick={() => updateDisplayResult(TARGET_INPUT_LOCATION)} />
+							name='location' placeholder='Helsinki, Finland' onClick={() => updateDisplayResult(TARGET_INPUT_LOCATION)} />
 					</div>
 					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 						<label className='text-[9px] uppercase font-bold'>guests</label>
@@ -118,18 +151,18 @@ function SearchMenu() {
 							<h3>Adults</h3>
 							<p className='mb-2'>Ages 13 or above</p>
 							<div className='flex gap-3'>
-								<button className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
-								<span>0</span>
-								<button className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
+								<button onClick={handleAdultsBtnMinus} className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
+								<span>{counterAdults}</span>
+								<button onClick={handleAdultsBtnPlus} className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
 							</div>
 						</div>
 						<div>
 							<h3>Children</h3>
 							<p className='mb-2'>Ages 2-12</p>
 							<div className='flex gap-3'>
-								<button className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
-								<span>0</span>
-								<button className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
+								<button onClick={handleChildrenBtnMinus} className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
+								<span>{counterChildren}</span>
+								<button onClick={handleChildrenBtnPlus} className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
 							</div>
 						</div>
 					</div>
