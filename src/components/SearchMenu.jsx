@@ -61,9 +61,11 @@ function SearchMenu() {
 		}
 
 		return (
-			<div className={`absolute top-[${topVal}] right-0 left-0 p-4 bg-white flex flex-col min-h-[90vh] gap-6`}>
-				{/* Edit actions */}
-				<div className='flex justify-between p-2'>
+			<div className={`absolute top-[${topVal}] right-0 left-0 p-4 bg-white flex flex-col min-h-[90vh] gap-6 `}>
+
+				{/* Edit your search */}
+
+				<div className='flex justify-between'>
 					<h2>Edit your search</h2>
 					<button onClick={fnOnClose}>
 						<svg style={{ width: '24px', height: '24px' }} viewBox="0 0 24 24">
@@ -74,16 +76,24 @@ function SearchMenu() {
 
 				{/* Locations - Guests */}
 
-				<div className='shadow rounded-xl border-[1px] focus-within:border-orange-300 w-full md:w-[768px] mx-auto'>
-					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 '>
+				<div className='flex flex-col sm:flex-row sm:items-center sm:justify-around shadow rounded-xl border-[1px] focus-within:border-orange-200 w-full md:w-[768px] mx-auto'>
+					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 						<label className='text-[9px] uppercase font-bold'>location</label>
 						<input className='text-sm focus:outline-none border-none' type="text"
 							placeholder='Helsinki, Finland' onClick={() => updateDisplayResult(TARGET_INPUT_LOCATION)} />
 					</div>
-					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2'>
+					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 						<label className='text-[9px] uppercase font-bold'>guests</label>
 						<input className='text-sm focus:outline-none border-none' type="tel"
 							placeholder='Add guests' onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
+					</div>
+					<div className='hidden flex sm:block'>
+						<button className='mt-auto flex gap-2 bg-[#EB5757E5] rounded-2xl text-white px-4 py-3' type='submit'>
+							<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
+								<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+							</svg>
+							<span>Search</span>
+						</button>
 					</div>
 				</div>
 
@@ -114,7 +124,7 @@ function SearchMenu() {
 					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">10</button>
 				</div>
 
-				<button className='mt-auto flex gap-2 self-center bg-[#EB5757E5] rounded-2xl text-white px-6 py-3 mt-1' type='submit'>
+				<button className='mt-auto flex gap-2 self-center bg-[#EB5757E5] rounded-2xl text-white px-6 py-3 mt-1 sm:hidden' type='submit'>
 					<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
 						<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
 					</svg>
