@@ -87,8 +87,8 @@ function SearchMenu() {
 						<input className='text-sm focus:outline-none border-none' type="tel"
 							placeholder='Add guests' onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
 					</div>
-					<div className='hidden flex sm:block'>
-						<button className='mt-auto flex gap-2 bg-[#EB5757E5] rounded-2xl text-white px-4 py-3' type='submit'>
+					<div className='hidden sm:block'>
+						<button className='mt-auto flex gap-2 bg-[#EB5757E5] rounded-2xl text-white px-4 py-3 mr-2' type='submit'>
 							<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
 								<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
 							</svg>
@@ -99,7 +99,7 @@ function SearchMenu() {
 
 				{/* Results */}
 
-				<div className={`${displayLocationResults} p-4 flex flex-col gap-6 max-h-[45vh] overflow-auto w-full md:md:w-[768px] mx-auto`}>
+				<div className={`${displayLocationResults} shadow rounded-xl p-4 flex flex-col gap-6 max-h-[45vh] overflow-auto w-full md:md:w-[768px] mx-auto`}>
 					{
 						staysData.map(it =>
 							<button key={it.title} className='flex gap-2 text-[#4f4f4f]'>
@@ -111,20 +111,31 @@ function SearchMenu() {
 						)
 					}
 				</div>
-				<div className={`${displayGuestsResults} bg-[#f9f9f9] shadow border-2 border-slate-200 rounded-xl p-4 grid grid-cols-3 place-items-center gap-6 overflow-auto w-full md:md:w-[768px] mx-auto`}>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">1</button>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">2</button>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">3</button>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">4</button>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">5</button>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">6</button>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">7</button>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">8</button>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">9</button>
-					<button className="border-b-2 border-[#EB5757E5] p-2 px-4 text-[#4f4f4f] hover:border-orange-300 hover:text-[#111]">10</button>
+
+				<div className={`${displayGuestsResults} flex flex-col sm:flex-row sm:justify-end shadow rounded-xl p-4 w-full md:md:w-[768px] mx-auto`}>
+					<div className='sm:min-w-[55%] flex flex-col gap-4'>
+						<div>
+							<h3>Adults</h3>
+							<p className='mb-2'>Ages 13 or above</p>
+							<div className='flex gap-3'>
+								<button className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
+								<span>0</span>
+								<button className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
+							</div>
+						</div>
+						<div>
+							<h3>Children</h3>
+							<p className='mb-2'>Ages 2-12</p>
+							<div className='flex gap-3'>
+								<button className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
+								<span>0</span>
+								<button className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<button className='mt-auto flex gap-2 self-center bg-[#EB5757E5] rounded-2xl text-white px-6 py-3 mt-1 sm:hidden' type='submit'>
+				<button className='mt-auto flex gap-2 self-center bg-[#EB5757E5] rounded-2xl text-white px-6 py-3 sm:hidden' type='submit'>
 					<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
 						<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
 					</svg>
