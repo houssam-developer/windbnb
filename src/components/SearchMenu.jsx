@@ -148,21 +148,21 @@ function SearchMenu() {
 				<div className={`${displayGuestsResults} flex flex-col sm:flex-row sm:justify-end shadow rounded-xl p-4 w-full md:md:w-[768px] mx-auto`}>
 					<div className='sm:min-w-[55%] flex flex-col gap-4'>
 						<div>
-							<h3>Adults</h3>
-							<p className='mb-2'>Ages 13 or above</p>
+							<h3 className='text-sm'>Adults</h3>
+							<p className='mb-2 text-[#aaa] text-sm'>Ages 13 or above</p>
 							<div className='flex gap-3'>
-								<button onClick={handleAdultsBtnMinus} className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
+								<button onClick={handleAdultsBtnMinus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
 								<span>{counterAdults}</span>
-								<button onClick={handleAdultsBtnPlus} className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
+								<button onClick={handleAdultsBtnPlus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
 							</div>
 						</div>
 						<div>
-							<h3>Children</h3>
-							<p className='mb-2'>Ages 2-12</p>
+							<h3 className='text-sm'>Children</h3>
+							<p className='mb-2 text-[#aaa] text-sm'>Ages 2-12</p>
 							<div className='flex gap-3'>
-								<button onClick={handleChildrenBtnMinus} className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
+								<button onClick={handleChildrenBtnMinus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
 								<span>{counterChildren}</span>
-								<button onClick={handleChildrenBtnPlus} className='min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
+								<button onClick={handleChildrenBtnPlus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
 							</div>
 						</div>
 					</div>
