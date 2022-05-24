@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import staysData from '../data/stays.json';
 
 const NEGATIF_FULL = '-100%';
-const POSITIF_FULL = '100%';
+const POSITIF_FULL = '0';
 const TARGET_INPUT_LOCATION = 'location';
 const TARGET_INPUT_GUESTS = 'guests';
 
@@ -20,13 +20,14 @@ function SearchMenu() {
 	}
 
 	function handleCloseSearchModal() {
+		console.log('Close Modal');
 		setTopVal(NEGATIF_FULL);
 	}
 
 	return (
-		<>
+		<div>
 			<SearchModal fnOnClose={handleCloseSearchModal} />
-			<form className='flex sm:flex-row shadow rounded-xl max-w-max' onSubmit={handleSearchBtnFront}>
+			<form className='flex sm:flex-row shadow rounded-xl ' onSubmit={handleSearchBtnFront}>
 				<div className='p-3 rounded-l-xl flex max-w-[150px] border-[1px] border-r-0 border-gray-200' >
 					<input className=' w-full text-sm focus:outline-none' type="text" placeholder='Helsinki, Finland' />
 				</div>
@@ -39,7 +40,7 @@ function SearchMenu() {
 					</svg>
 				</button>
 			</form>
-		</>
+		</div>
 	)
 
 	function SearchModal({ fnOnClose }) {
@@ -137,6 +138,11 @@ function SearchMenu() {
 			setPlaceholderGuests(`${it.maxGuests} (max guests)`);
 		}
 
+		function handleFormSearch(e) {
+			e.preventDefault();
+			console.log('FormSearch');
+		}
+
 		return (
 			<div className={`absolute top-[${topVal}] right-0 left-0 p-4 bg-white flex flex-col min-h-[90vh] gap-6 `}>
 
@@ -168,7 +174,8 @@ function SearchMenu() {
 							placeholder={placeholderGuests} value={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
 					</div>
 					<div className='hidden sm:block'>
-						<button className='mt-auto flex gap-2 bg-[#EB5757E5] rounded-2xl text-white px-4 py-3 mr-2' type='submit'>
+						<button className='mt-auto flex gap-2 bg-[#EB5757E5] rounded-2xl text-white px-4 py-3 mr-2'
+							onClick={handleFormSearch}>
 							<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
 								<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
 							</svg>
@@ -215,13 +222,14 @@ function SearchMenu() {
 					</div>
 				</div>
 
-				<button className='mt-auto flex gap-2 self-center bg-[#EB5757E5] rounded-2xl text-white px-6 py-3 sm:hidden' type='submit'>
+				<button className='mt-auto flex gap-2 self-center bg-[#EB5757E5] rounded-2xl text-white px-6 py-3 sm:hidden'
+					onClick={handleFormSearch}>
 					<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
 						<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
 					</svg>
 					<span>Search</span>
 				</button>
-			</div >
+			</div>
 		);
 	}
 }
