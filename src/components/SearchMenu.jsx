@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import staysData from '../data/stays.json';
 
 const NEGATIF_FULL = '-100%';
@@ -69,7 +69,6 @@ function SearchMenu() {
 			console.log(results);
 		}, [inputContentLocation, counterGuests]);
 
-
 		function handleAdultsBtnMinus(e) {
 			e.preventDefault();
 			console.log('AdultsBtnMinus');
@@ -131,8 +130,8 @@ function SearchMenu() {
 			}
 		}
 
-		function handleResultBtnLocation(it) {
-
+		function handleResultBtnLocation(e, it) {
+			e.preventDefault();
 			console.log(it);
 			setInputContentLocation(`${it.city}, ${it.country}`);
 			setPlaceholderGuests(`${it.maxGuests} (max guests)`);
@@ -140,7 +139,20 @@ function SearchMenu() {
 
 		function handleFormSearch(e) {
 			e.preventDefault();
-			console.log('FormSearch');
+			console.log('FormSearch: ', e.target);
+
+			const formData = new FormData(e.target);
+			console.log(`🚧 loadTsFormData() #formData `, formData);
+
+			Array.from(formData.entries()).forEach(it => console.log(`|__ 🚧 loadTsFormData() #entry `, it))
+
+			let location = inputContentLocation.toLowerCase();
+			console.log('location: ', location);
+			let res = location === '' ? staysData : staysData.filter(it => it.city.toLowerCase().includes(location) || it.country.toLowerCase().includes(location))
+
+			res = counterGuests === 0 ? res : res.filter(it => it.maxGuests === counterGuests);
+
+			console.log('res: ', res);
 		}
 
 		return (
@@ -159,76 +171,83 @@ function SearchMenu() {
 
 				{/* Locations - Guests */}
 
-				<div className='flex flex-col sm:flex-row sm:items-center sm:justify-around shadow rounded-xl border-[1px] focus-within:border-orange-200 w-full md:w-[768px] mx-auto'>
-					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
-						<label htmlFor='location' className='text-[9px] uppercase font-bold'>location</label>
-						<input className='text-sm focus:outline-none border-none' type="text"
-							name='location' placeholder='Helsinki, Finland'
-							value={inputContentLocation}
-							onChange={handleInputLocationEvent}
-							onClick={() => updateDisplayResult(TARGET_INPUT_LOCATION)} />
-					</div>
-					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
-						<label className='text-[9px] uppercase font-bold'>guests</label>
-						<input className='text-sm focus:outline-none border-none' type="tel"
-							placeholder={placeholderGuests} value={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
-					</div>
-					<div className='hidden sm:block'>
-						<button className='mt-auto flex gap-2 bg-[#EB5757E5] rounded-2xl text-white px-4 py-3 mr-2'
-							onClick={handleFormSearch}>
-							<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
-								<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
-							</svg>
-							<span>Search</span>
-						</button>
-					</div>
-				</div>
+				<form className='flex flex-col flex-grow' onSubmit={handleFormSearch}>
+					<div className='flex flex-col sm:flex-row sm:items-center sm:justify-around shadow rounded-xl border-[1px] focus-within:border-orange-200 w-full md:w-[768px] mx-auto'>
+						<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
+							<label htmlFor='location' className='text-[9px] uppercase font-bold'>location</label>
+							<input className='text-sm focus:outline-none border-none' type="text"
+								name='location' placeholder='Helsinki, Finland'
+								value={inputContentLocation}
+								onChange={handleInputLocationEvent}
+								onClick={() => updateDisplayResult(TARGET_INPUT_LOCATION)} />
+						</div>
+						<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
+							<label className='text-[9px] uppercase font-bold'>guests</label>
+							<input className='text-sm focus:outline-none border-none' type="tel"
+								name='guests' placeholder={placeholderGuests} value={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
+						</div>
 
-				{/* Results */}
-
-				<div className={`${displayLocationResults} shadow rounded-xl p-4 flex flex-col gap-6 max-h-[45vh] overflow-auto w-full md:md:w-[768px] mx-auto`}>
-					{
-						resultsLocations.map(it =>
-							<button key={it.title} className='flex gap-2 text-[#4f4f4f]' onClick={() => handleResultBtnLocation(it)}>
-								<svg style={{ width: '24px', height: '24px' }} viewBox="0 0 24 24">
-									<path fill="currentColor" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+						{/* Btn Submit Desktop  */}
+						<div className='hidden sm:block'>
+							<button className='mt-auto flex gap-2 bg-[#EB5757E5] rounded-2xl text-white px-4 py-3 mr-2'
+								type='submit'>
+								<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
+									<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
 								</svg>
-								<span>{it.city}, {it.country}</span>
+								<span>Search</span>
 							</button>
-						)
-					}
-				</div>
-
-				<div className={`${displayGuestsResults} flex flex-col sm:flex-row sm:justify-end shadow rounded-xl p-4 w-full md:md:w-[768px] mx-auto`}>
-					<div className='sm:min-w-[55%] flex flex-col gap-4'>
-						<div>
-							<h3 className='text-sm'>Adults</h3>
-							<p className='mb-2 text-[#aaa] text-sm'>Ages 13 or above</p>
-							<div className='flex gap-3'>
-								<button onClick={handleAdultsBtnMinus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
-								<span>{counterAdults}</span>
-								<button onClick={handleAdultsBtnPlus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
-							</div>
 						</div>
-						<div>
-							<h3 className='text-sm'>Children</h3>
-							<p className='mb-2 text-[#aaa] text-sm'>Ages 2-12</p>
-							<div className='flex gap-3'>
-								<button onClick={handleChildrenBtnMinus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
-								<span>{counterChildren}</span>
-								<button onClick={handleChildrenBtnPlus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
+					</div>
+
+					{/* Results Locations */}
+
+					<div className={`${displayLocationResults} shadow rounded-xl p-4 flex flex-col gap-6 max-h-[45vh] overflow-auto w-full md:md:w-[768px] mx-auto`}>
+						{
+							resultsLocations.map(it =>
+								<button key={it.title} className='flex gap-2 text-[#4f4f4f]' onClick={(e) => handleResultBtnLocation(e, it)}>
+									<svg style={{ width: '24px', height: '24px' }} viewBox="0 0 24 24">
+										<path fill="currentColor" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+									</svg>
+									<span>{it.city}, {it.country}</span>
+								</button>
+							)
+						}
+					</div>
+
+					{/* Guests Controls */}
+
+					<div className={`${displayGuestsResults} flex flex-col sm:flex-row sm:justify-end shadow rounded-xl p-4 w-full md:md:w-[768px] mx-auto`}>
+						<div className='sm:min-w-[55%] flex flex-col gap-4'>
+							<div>
+								<h3 className='text-sm'>Adults</h3>
+								<p className='mb-2 text-[#aaa] text-sm'>Ages 13 or above</p>
+								<div className='flex gap-3'>
+									<button onClick={handleAdultsBtnMinus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
+									<span>{counterAdults}</span>
+									<button onClick={handleAdultsBtnPlus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
+								</div>
+							</div>
+							<div>
+								<h3 className='text-sm'>Children</h3>
+								<p className='mb-2 text-[#aaa] text-sm'>Ages 2-12</p>
+								<div className='flex gap-3'>
+									<button onClick={handleChildrenBtnMinus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>-</button>
+									<span>{counterChildren}</span>
+									<button onClick={handleChildrenBtnPlus} className='text-[#4f4f4f] min-w-[24px] min-h-[24px] rounded border-[1px] border-gray-400'>+</button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<button className='mt-auto flex gap-2 self-center bg-[#EB5757E5] rounded-2xl text-white px-6 py-3 sm:hidden'
-					onClick={handleFormSearch}>
-					<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
-						<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
-					</svg>
-					<span>Search</span>
-				</button>
+					{/* Btn Search */}
+					<button className='mt-auto flex gap-2 self-center bg-[#EB5757E5] rounded-2xl text-white px-6 py-3 sm:hidden'
+						type='submit'>
+						<svg style={{ width: '24px', height: '24px', fill: '#F2F2F2' }} viewBox="0 0 24 24">
+							<path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+						</svg>
+						<span>Search</span>
+					</button>
+				</form>
 			</div>
 		);
 	}
