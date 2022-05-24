@@ -48,17 +48,25 @@ function SearchMenu() {
 
 		const [counterAdults, setCounterAdults] = useState(0);
 		const [counterChildren, setCounterChildren] = useState(0);
+		const [counterGuests, setCounterGuests] = useState(0);
 
 		function handleAdultsBtnMinus(e) {
 			e.preventDefault();
 			console.log('AdultsBtnMinus');
-			if (counterAdults < 1) { setCounterAdults('0'); return; }
+			if (counterAdults < 1) { setCounterAdults(0); return; }
 			setCounterAdults((currentVal) => currentVal - 1);
+
+			if (counterGuests < 1) { setCounterGuests(0); return; }
+			setCounterGuests((currentVal) => currentVal - 1);
+
 		}
 
 		function handleAdultsBtnPlus(e) {
 			e.preventDefault();
 			console.log('AdultsBtnPlus');
+			if (counterGuests == 10) { alert('Max Guests is 10, lower number of adults or children'); return; }
+			setCounterGuests((currentVal) => currentVal + 1);
+
 			if (counterAdults == 10) { alert('Max Adults Guests is 10'); return; }
 			setCounterAdults((currentVal) => currentVal + 1);
 		}
@@ -66,18 +74,23 @@ function SearchMenu() {
 		function handleChildrenBtnMinus(e) {
 			e.preventDefault();
 			console.log('ChildrenBtnMinus');
-			if (counterChildren < 1) { setCounterChildren('0'); return; }
+			if (counterGuests < 1) { setCounterGuests(0); return; }
+			setCounterGuests((currentVal) => currentVal - 1);
+
+			if (counterChildren < 1) { setCounterChildren(0); return; }
 			setCounterChildren((currentVal) => currentVal - 1);
 		}
 
 		function handleChildrenBtnPlus(e) {
 			e.preventDefault();
 			console.log('ChildrenBtnMinus');
+			if (counterGuests == 10) { alert('Max Guests is 10, lower number of adults or children'); return; }
+			setCounterGuests((currentVal) => currentVal + 1);
+
 			if (counterChildren == 10) { alert('Max Children Guests is 10'); return; }
 			setCounterChildren((currentVal) => currentVal + 1);
+
 		}
-
-
 
 		function updateDisplayResult(targetInput) {
 			if (targetInput === TARGET_INPUT_LOCATION) {
@@ -118,7 +131,7 @@ function SearchMenu() {
 					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 						<label className='text-[9px] uppercase font-bold'>guests</label>
 						<input className='text-sm focus:outline-none border-none' type="tel"
-							placeholder='Add guests' onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
+							placeholder='Add guests' value={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
 					</div>
 					<div className='hidden sm:block'>
 						<button className='mt-auto flex gap-2 bg-[#EB5757E5] rounded-2xl text-white px-4 py-3 mr-2' type='submit'>
