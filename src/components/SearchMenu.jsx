@@ -43,12 +43,31 @@ function SearchMenu() {
 	)
 
 	function SearchModal({ fnOnClose }) {
+		const [resultsLocations, setResultsLocations] = useState([])
 		const [displayLocationResults, setDisplayLocationResults] = useState('hidden');
 		const [displayGuestsResults, setDisplayGuestsResults] = useState('hidden');
+
+		const [inputContentLocation, setInputContentLocation] = useState('');
+		const [placeholderGuests, setPlaceholderGuests] = useState('Add Guests');
 
 		const [counterAdults, setCounterAdults] = useState(0);
 		const [counterChildren, setCounterChildren] = useState(0);
 		const [counterGuests, setCounterGuests] = useState(0);
+
+		useEffect(() => {
+			let results = inputContentLocation === '' ?
+				[] : staysData.filter(it =>
+					it.city.toLowerCase().includes(inputContentLocation.toLowerCase())
+					|| it.country.toLowerCase().includes(inputContentLocation.toLowerCase())
+				);
+
+
+			results = counterGuests === 0 ? results : results.filter(it => it.maxGuests === counterGuests);
+			setResultsLocations(results);
+
+			console.log(results);
+		}, [inputContentLocation, counterGuests]);
+
 
 		function handleAdultsBtnMinus(e) {
 			e.preventDefault();
@@ -58,7 +77,6 @@ function SearchMenu() {
 
 			if (counterGuests < 1) { setCounterGuests(0); return; }
 			setCounterGuests((currentVal) => currentVal - 1);
-
 		}
 
 		function handleAdultsBtnPlus(e) {
@@ -92,6 +110,12 @@ function SearchMenu() {
 
 		}
 
+		function handleInputLocationEvent(e) {
+			//e.preventDefault();
+			setInputContentLocation(e.target.value);
+			console.log('inputLocationSearchVal: ', inputContentLocation);
+		}
+
 		function updateDisplayResult(targetInput) {
 			if (targetInput === TARGET_INPUT_LOCATION) {
 				setDisplayGuestsResults('hidden');
@@ -104,6 +128,13 @@ function SearchMenu() {
 				setDisplayGuestsResults('');
 				return;
 			}
+		}
+
+		function handleResultBtnLocation(it) {
+
+			console.log(it);
+			setInputContentLocation(`${it.city}, ${it.country}`);
+			setPlaceholderGuests(`${it.maxGuests} (max guests)`);
 		}
 
 		return (
@@ -126,12 +157,15 @@ function SearchMenu() {
 					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 						<label htmlFor='location' className='text-[9px] uppercase font-bold'>location</label>
 						<input className='text-sm focus:outline-none border-none' type="text"
-							name='location' placeholder='Helsinki, Finland' onClick={() => updateDisplayResult(TARGET_INPUT_LOCATION)} />
+							name='location' placeholder='Helsinki, Finland'
+							value={inputContentLocation}
+							onChange={handleInputLocationEvent}
+							onClick={() => updateDisplayResult(TARGET_INPUT_LOCATION)} />
 					</div>
 					<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 						<label className='text-[9px] uppercase font-bold'>guests</label>
 						<input className='text-sm focus:outline-none border-none' type="tel"
-							placeholder='Add guests' value={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
+							placeholder={placeholderGuests} value={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
 					</div>
 					<div className='hidden sm:block'>
 						<button className='mt-auto flex gap-2 bg-[#EB5757E5] rounded-2xl text-white px-4 py-3 mr-2' type='submit'>
@@ -147,8 +181,8 @@ function SearchMenu() {
 
 				<div className={`${displayLocationResults} shadow rounded-xl p-4 flex flex-col gap-6 max-h-[45vh] overflow-auto w-full md:md:w-[768px] mx-auto`}>
 					{
-						staysData.map(it =>
-							<button key={it.title} className='flex gap-2 text-[#4f4f4f]'>
+						resultsLocations.map(it =>
+							<button key={it.title} className='flex gap-2 text-[#4f4f4f]' onClick={() => handleResultBtnLocation(it)}>
 								<svg style={{ width: '24px', height: '24px' }} viewBox="0 0 24 24">
 									<path fill="currentColor" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
 								</svg>
