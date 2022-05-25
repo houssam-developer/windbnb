@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import staysData from '../data/stays.json';
 
-const NEGATIF_FULL = '-100%';
-const POSITIF_FULL = '0';
+
 const TARGET_INPUT_LOCATION = 'location';
 const TARGET_INPUT_GUESTS = 'guests';
 
@@ -11,23 +10,23 @@ function SearchMenu() {
 	const [guestsValue, setGuestsValue] = useState(1);
 	const [searchModalClassNames, setSearchModalClassNames] = useState('search-modal');
 
-	const [topVal, setTopVal] = useState(NEGATIF_FULL);
+	const [topVal, setTopVal] = useState('-100%');
 
 	function handleSearchBtnFront(e) {
 		e.preventDefault();
 		console.log('// Need to filter results with data from inputs');
-		setTopVal(POSITIF_FULL);
+		setTopVal('0');
 	}
 
 	function handleCloseSearchModal() {
 		console.log('Close Modal');
-		setTopVal(NEGATIF_FULL);
+		setTopVal('-100%');
 	}
 
 	return (
 		<div>
 			<SearchModal fnOnClose={handleCloseSearchModal} />
-			<form className='flex sm:flex-row shadow rounded-xl ' onSubmit={handleSearchBtnFront}>
+			<form className='flex sm:flex-row shadow rounded-xl ' onClick={handleSearchBtnFront}>
 				<div className='p-3 rounded-l-xl flex max-w-[150px] border-[1px] border-r-0 border-gray-200' >
 					<input className=' w-full text-sm focus:outline-none' type="text" placeholder='Helsinki, Finland' />
 				</div>
@@ -156,7 +155,7 @@ function SearchMenu() {
 		}
 
 		return (
-			<div className={`absolute top-[${topVal}] right-0 left-0 p-4 bg-white flex flex-col min-h-[90vh] gap-6 `}>
+			<div className={`hidden absolute top-[${topVal}] right-0 left-0 p-4 bg-white border-2 border-red-400 flex flex-col min-h-[90vh] gap-6 `}>
 
 				{/* Edit your search */}
 
