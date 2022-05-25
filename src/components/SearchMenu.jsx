@@ -70,9 +70,8 @@ function SearchMenu({ setSummaryData }) {
 		const [counterChildren, setCounterChildren] = useState(0);
 		const [counterGuests, setCounterGuests] = useState(0);
 
-
 		function handleCloseSearchModal() {
-			document.documentElement.style.setProperty('--container-modal-search--top', '-100%');
+			document.documentElement.style.setProperty('--container-modal-search--top', '-200%');
 			document.documentElement.style.setProperty('--container-stays--brightness', '100%');
 			document.documentElement.style.setProperty('--container-stays--background', '#fff');
 		}
@@ -84,11 +83,8 @@ function SearchMenu({ setSummaryData }) {
 					|| it.country.toLowerCase().includes(inputContentLocation.toLowerCase())
 				);
 
-
 			results = counterGuests === 0 ? results : results.filter(it => it.maxGuests >= counterGuests);
 			setResultsLocations(results);
-
-
 
 		}, [inputContentLocation, counterGuests]);
 
@@ -175,6 +171,8 @@ function SearchMenu({ setSummaryData }) {
 			});
 
 			document.documentElement.style.setProperty('--container-modal-search--top', '-200%');
+			document.documentElement.style.setProperty('--container-stays--brightness', '100%');
+			document.documentElement.style.setProperty('--container-stays--background', '#fff');
 			fnInputs(inputContentLocation, counterGuests);
 		}
 

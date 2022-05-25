@@ -33,6 +33,6 @@ body {
 }
 
 .container-stays {
-	filter: var(--container-stays--brightness);
+	filter: brightness(var(--container-stays--brightness));
 	background-color: var(--container-stays--background);
 }
