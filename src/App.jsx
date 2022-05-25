@@ -22,10 +22,10 @@ function App() {
 	}, [currentTotal, totalVal, staysVal])
 
 	return (
-		<div className="relative flex flex-col gap-6 p-4 max-w-6xl mx-auto">
+		<div className="relative flex flex-col gap-6  mx-auto ">
 			<Header setSummaryData={handleSummaryData} />
-			<main className='flex flex-col gap-4'>
-				<section className={`flex flex-col gap-8`}>
+			<main className='flex flex-col gap-4 p-4 container-stays '>
+				<section className={`flex flex-col gap-8  w-full max-w-6xl mx-auto`}>
 					<div className='flex items-center justify-between'>
 						<h1 className='text-[16px] sm:text-[18px] md:text-[24px]'>Stays in currentCountry</h1>
 						<span className='text-[12px] sm:text-[14px] text-[#4f4f4f]'>{currentTotal} total stays</span>

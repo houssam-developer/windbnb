@@ -7,6 +7,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 h1 {
 	font-family: 'Monserrat', Arial, Helvetica, sans-serif;
 	color: #333;
@@ -18,9 +19,20 @@ h1 {
 
 :root {
 	--container-modal-search--top: -100%;
+	--container-stays--brightness: 100%;
+	--container-stays--background: #fff;
+}
+
+
+body {
+	background-color: var(--container-stays--background);
 }
 
 .container-modal-search {
 	top: var(--container-modal-search--top);
+}
 
+.container-stays {
+	filter: var(--container-stays--brightness);
+	background-color: var(--container-stays--background);
 }

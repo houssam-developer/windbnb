@@ -15,6 +15,8 @@ function SearchMenu({ setSummaryData }) {
 	function handleFormSearchEvent(e) {
 		e.preventDefault();
 		document.documentElement.style.setProperty('--container-modal-search--top', '0');
+		document.documentElement.style.setProperty('--container-stays--brightness', '50%');
+		document.documentElement.style.setProperty('--container-stays--background', '#aaa');
 	}
 
 	function fnInputs(location, guests) {
@@ -70,8 +72,9 @@ function SearchMenu({ setSummaryData }) {
 
 
 		function handleCloseSearchModal() {
-
 			document.documentElement.style.setProperty('--container-modal-search--top', '-100%');
+			document.documentElement.style.setProperty('--container-stays--brightness', '100%');
+			document.documentElement.style.setProperty('--container-stays--background', '#fff');
 		}
 
 		useEffect(() => {
@@ -176,7 +179,7 @@ function SearchMenu({ setSummaryData }) {
 		}
 
 		return (
-			<div className={'absolute right-0 left-0 p-4 bg-white z-50 flex flex-col min-h-[90vh] gap-6 container-modal-search'}>
+			<div className={'absolute right-0 left-0 p-4 bg-white z-50 flex flex-col min-h-[70vh] gap-6 container-modal-search'}>
 
 				{/* Edit your search */}
 
@@ -191,7 +194,7 @@ function SearchMenu({ setSummaryData }) {
 
 				{/* Locations - Guests */}
 
-				<form className='flex flex-col ' onSubmit={handleFormSearch}>
+				<form className='flex flex-col flex-grow' onSubmit={handleFormSearch}>
 					<div className='flex flex-col sm:flex-row sm:items-center sm:justify-around shadow rounded-xl border-[1px] focus-within:border-orange-200 w-full md:w-[768px] mx-auto'>
 						<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 							<label htmlFor='location' className='text-[9px] uppercase font-bold'>location</label>
