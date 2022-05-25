@@ -7,31 +7,43 @@ const TARGET_INPUT_GUESTS = 'guests';
 
 function SearchMenu({ setSummaryData }) {
 	const [locationValue, setLocationValue] = useState('Helsinki, Finland');
-	const [guestsValue, setGuestsValue] = useState(1);
-	const [searchModalClassNames, setSearchModalClassNames] = useState('search-modal');
+	const [guestsValue, setGuestsValue] = useState('Add guests');
 
-	const [targetTopVal, setTargetTopVal] = useState('-100%');
+	const [locationVal, setLocationVal] = useState('Helsinki, Finland');
+	const [guestsVal, setGuestsVal] = useState('Add guests');
 
 	function handleFormSearchEvent(e) {
-		console.log('formSeachClick');
 		e.preventDefault();
 		document.documentElement.style.setProperty('--container-modal-search--top', '0');
 	}
 
-	function updateFormData(location, guests) {
-		setLocationValue(location);
-		setGuestsValue(guests);
+	function fnInputs(location, guests) {
+		setLocationVal(location);
+		setGuestsVal(guests);
 	}
+
+	useEffect(() => {
+		setLocationValue(locationVal);
+		if (locationVal === '') { setLocationValue('Add location'); }
+		else { setLocationValue(locationVal); }
+
+		if (guestsVal === 0) { setGuestsValue('Add guests'); }
+		else { setGuestsValue(guestsVal); }
+
+	}, [locationVal, guestsVal]);
+
 
 	return (
 		<div>
-			<SearchModal setSummaryData={setSummaryData} formData={updateFormData} />
+			<SearchModal setSummaryData={setSummaryData} fnInputs={fnInputs} />
 			<form className='flex sm:flex-row shadow rounded-xl ' onClick={handleFormSearchEvent}>
 				<div className='p-3 rounded-l-xl flex max-w-[150px] border-[1px] border-r-0 border-gray-200' >
-					<input className=' w-full text-sm focus:outline-none' type="text" placeholder='Helsinki, Finland' value={locationValue} />
+					<input className=' w-full text-sm focus:outline-none' type="text"
+						placeholder={locationValue} />
 				</div>
 				<div className='p-3 flex max-w-[150px] border-[1px] border-r-0 border-gray-200'>
-					<input className='w-full text-sm focus:outline-none' type="tel" placeholder='Add guests' value={guestsValue} />
+					<input className='w-full text-sm focus:outline-none' type="tel"
+						placeholder={guestsValue} />
 				</div>
 				<button className='p-3 rounded-r-xl max-w-min border-[1px] border-gray-200' type='submit'>
 					<svg style={{ width: '24px', height: '24px', fill: '#EB5757E5' }} viewBox="0 0 24 24">
@@ -43,7 +55,7 @@ function SearchMenu({ setSummaryData }) {
 	)
 
 
-	function SearchModal({ setSummaryData, formData }) {
+	function SearchModal({ setSummaryData, fnInputs }) {
 
 		const [resultsLocations, setResultsLocations] = useState([])
 		const [displayLocationResults, setDisplayLocationResults] = useState('hidden');
@@ -58,7 +70,7 @@ function SearchMenu({ setSummaryData }) {
 
 
 		function handleCloseSearchModal() {
-			console.log('Close Modal');
+
 			document.documentElement.style.setProperty('--container-modal-search--top', '-100%');
 		}
 
@@ -70,16 +82,16 @@ function SearchMenu({ setSummaryData }) {
 				);
 
 
-			results = counterGuests === 0 ? results : results.filter(it => it.maxGuests === counterGuests);
+			results = counterGuests === 0 ? results : results.filter(it => it.maxGuests >= counterGuests);
 			setResultsLocations(results);
 
-			console.log('SearchMenu.useEffect() #results ', results);
+
 
 		}, [inputContentLocation, counterGuests]);
 
 		function handleAdultsBtnMinus(e) {
 			e.preventDefault();
-			console.log('AdultsBtnMinus');
+
 			if (counterAdults < 1) { setCounterAdults(0); return; }
 			setCounterAdults((currentVal) => currentVal - 1);
 
@@ -89,7 +101,7 @@ function SearchMenu({ setSummaryData }) {
 
 		function handleAdultsBtnPlus(e) {
 			e.preventDefault();
-			console.log('AdultsBtnPlus');
+
 			if (counterGuests == 10) { alert('Max Guests is 10, lower number of adults or children'); return; }
 			setCounterGuests((currentVal) => currentVal + 1);
 
@@ -99,7 +111,7 @@ function SearchMenu({ setSummaryData }) {
 
 		function handleChildrenBtnMinus(e) {
 			e.preventDefault();
-			console.log('ChildrenBtnMinus');
+
 			if (counterGuests < 1) { setCounterGuests(0); return; }
 			setCounterGuests((currentVal) => currentVal - 1);
 
@@ -109,7 +121,7 @@ function SearchMenu({ setSummaryData }) {
 
 		function handleChildrenBtnPlus(e) {
 			e.preventDefault();
-			console.log('ChildrenBtnMinus');
+
 			if (counterGuests == 10) { alert('Max Guests is 10, lower number of adults or children'); return; }
 			setCounterGuests((currentVal) => currentVal + 1);
 
@@ -120,7 +132,7 @@ function SearchMenu({ setSummaryData }) {
 		function handleInputLocationEvent(e) {
 			//e.preventDefault();
 			setInputContentLocation(e.target.value);
-			console.log('inputLocationSearchVal: ', inputContentLocation);
+
 		}
 
 		function updateDisplayResult(targetInput) {
@@ -139,27 +151,19 @@ function SearchMenu({ setSummaryData }) {
 
 		function handleResultBtnLocation(e, it) {
 			e.preventDefault();
-			console.log(it);
+
 			setInputContentLocation(`${it.city}`);
 			setPlaceholderGuests(`${it.maxGuests} (max guests)`);
 		}
 
 		function handleFormSearch(e) {
 			e.preventDefault();
-			console.log('FormSearch: ', e.target);
-
-			const formData = new FormData(e.target);
-			console.log(`🚧 loadTsFormData() #formData `, formData);
-
-			Array.from(formData.entries()).forEach(it => console.log(`|__ 🚧 loadTsFormData() #entry `, it))
 
 			let location = inputContentLocation.toLowerCase();
-			console.log('location: ', location);
 			let res = location === '' ? staysData : staysData.filter(it => it.city.toLowerCase().includes(location) || it.country.toLowerCase().includes(location))
 
-			res = counterGuests === 0 ? res : res.filter(it => it.maxGuests === counterGuests);
+			res = counterGuests === 0 ? res : res.filter(it => it.maxGuests >= counterGuests);
 
-			console.log('res: ', res);
 			setSummaryData({
 				stays: res,
 				total: res.length,
@@ -167,8 +171,8 @@ function SearchMenu({ setSummaryData }) {
 				guests: counterGuests
 			});
 
-			document.documentElement.style.setProperty('--container-modal-search--top', '-100%');
-			formData(inputContentLocation, counterGuests);
+			document.documentElement.style.setProperty('--container-modal-search--top', '-200%');
+			fnInputs(inputContentLocation, counterGuests);
 		}
 
 		return (
@@ -187,20 +191,23 @@ function SearchMenu({ setSummaryData }) {
 
 				{/* Locations - Guests */}
 
-				<form className='flex flex-col flex-grow' onSubmit={handleFormSearch}>
+				<form className='flex flex-col ' onSubmit={handleFormSearch}>
 					<div className='flex flex-col sm:flex-row sm:items-center sm:justify-around shadow rounded-xl border-[1px] focus-within:border-orange-200 w-full md:w-[768px] mx-auto'>
 						<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 							<label htmlFor='location' className='text-[9px] uppercase font-bold'>location</label>
 							<input className='text-sm focus:outline-none border-none' type="text"
 								name='location' placeholder='Helsinki, Finland'
-								defaultValue={inputContentLocation}
+								value={inputContentLocation}
 								onChange={handleInputLocationEvent}
 								onClick={() => updateDisplayResult(TARGET_INPUT_LOCATION)} />
 						</div>
 						<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 							<label className='text-[9px] uppercase font-bold'>guests</label>
 							<input className='text-sm focus:outline-none border-none' type="tel"
-								name='guests' placeholder={placeholderGuests} defaultValue={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
+								name='guests'
+								placeholder={placeholderGuests}
+								onChange={() => { }}
+								value={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
 						</div>
 
 						{/* Btn Submit Desktop  */}

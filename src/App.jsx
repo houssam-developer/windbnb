@@ -7,20 +7,17 @@ import staysData from './data/stays.json';
 function App() {
 	const [currentTotal, setCurrentTotal] = useState(0);
 	const [totalVal, setTotalVal] = useState(0);
-	const [currentStays, setCurrentStays] = useState([]);
 	const [staysVal, setStaysVal] = useState(staysData);
 	const [displayResults, setDisplayResults] = useState('hidden');
 
 	function handleSummaryData({ total, stays }) {
-		console.log('App.handleSummaryData() #total: ', total);
-		console.log('App.handleSummaryData() #stays: ', stays);
+
+
 		setTotalVal(total);
 		setStaysVal(stays);
 	}
 
 	useEffect(() => {
-		console.log('App.useEffect() #totalVal: ', totalVal);
-		console.log('App.useEffect() #staysVal: ', staysVal);
 		setCurrentTotal(totalVal);
 	}, [currentTotal, totalVal, staysVal])
 
@@ -30,15 +27,15 @@ function App() {
 			<main className='flex flex-col gap-4'>
 				<section className={`flex flex-col gap-8`}>
 					<div className='flex items-center justify-between'>
-						<h1 className='md:text-[24px]'>Stays in currentCountry</h1>
-						<span className='text-[14px] text-[#4f4f4f]'>{currentTotal} total stays</span>
+						<h1 className='text-[16px] sm:text-[18px] md:text-[24px]'>Stays in currentCountry</h1>
+						<span className='text-[12px] sm:text-[14px] text-[#4f4f4f]'>{currentTotal} total stays</span>
 					</div>
+
 					<ul className='results-data gap-x-4 gap-y-10 md:gap-y-14'>
 						{
-
 							staysVal.map(it =>
 								<li key={it.title}>
-									<article className='flex flex-col gap-2 min-w-[300px]'>
+									<article className='flex flex-col gap-2 min-w-[250px] sm:min-w-[300px]'>
 										<div className="container-ratio">
 											<img src={`${it.photo}`} alt="" />
 										</div>
@@ -58,6 +55,7 @@ function App() {
 							)
 						}
 					</ul>
+
 				</section>
 			</main>
 		</div>
