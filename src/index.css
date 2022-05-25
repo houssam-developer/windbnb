@@ -17,3 +17,11 @@ h1 {
 	letter-spacing: 0em;
 	text-align: left;
 }
+
+:root {
+	--container-modal-search--top: -100%;
+}
+
+.container-modal-search {
+	top: var(--container-modal-search--top);
+}

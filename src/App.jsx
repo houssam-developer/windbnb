@@ -1,28 +1,43 @@
-import { useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import './App.css'
 import Header from './components/Header'
 import staysData from './data/stays.json';
 
 
 function App() {
-	const [currentCountry, setCurrentCountry] = useState('');
+	const [currentTotal, setCurrentTotal] = useState(0);
+	const [totalVal, setTotalVal] = useState(0);
+	const [currentStays, setCurrentStays] = useState([]);
+	const [staysVal, setStaysVal] = useState(staysData);
 	const [displayResults, setDisplayResults] = useState('hidden');
 
+	function handleSummaryData({ total, stays }) {
+		console.log('App.handleSummaryData() #total: ', total);
+		console.log('App.handleSummaryData() #stays: ', stays);
+		setTotalVal(total);
+		setStaysVal(stays);
+	}
 
+	useEffect(() => {
+		console.log('App.useEffect() #totalVal: ', totalVal);
+		console.log('App.useEffect() #staysVal: ', staysVal);
+		setCurrentTotal(totalVal);
+	}, [currentTotal, totalVal, staysVal])
 
 	return (
-		<div className="flex flex-col gap-6 p-4 max-w-6xl mx-auto">
-			<Header />
+		<div className="relative flex flex-col gap-6 p-4 max-w-6xl mx-auto">
+			<Header setSummaryData={handleSummaryData} />
 			<main className='flex flex-col gap-4'>
 				<section className={`flex flex-col gap-8`}>
-					<div className='flex'>
+					<div className='flex items-center justify-between'>
 						<h1 className='md:text-[24px]'>Stays in currentCountry</h1>
-						<span>12 total ?? stays</span>
+						<span className='text-[14px] text-[#4f4f4f]'>{currentTotal} total stays</span>
 					</div>
 					<ul className='results-data gap-x-4 gap-y-10 md:gap-y-14'>
 						{
-							staysData.map(it =>
-								<li>
+
+							staysVal.map(it =>
+								<li key={it.title}>
 									<article className='flex flex-col gap-2 min-w-[300px]'>
 										<div className="container-ratio">
 											<img src={`${it.photo}`} alt="" />
@@ -40,7 +55,8 @@ function App() {
 										<h2 className='text-[14px] text-[#333333]'>{it.title}</h2>
 									</article>
 								</li>
-							)}
+							)
+						}
 					</ul>
 				</section>
 			</main>

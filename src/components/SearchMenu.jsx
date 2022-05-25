@@ -1,37 +1,37 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import staysData from '../data/stays.json';
 
 
 const TARGET_INPUT_LOCATION = 'location';
 const TARGET_INPUT_GUESTS = 'guests';
 
-function SearchMenu() {
+function SearchMenu({ setSummaryData }) {
 	const [locationValue, setLocationValue] = useState('Helsinki, Finland');
 	const [guestsValue, setGuestsValue] = useState(1);
 	const [searchModalClassNames, setSearchModalClassNames] = useState('search-modal');
 
-	const [topVal, setTopVal] = useState('-100%');
+	const [targetTopVal, setTargetTopVal] = useState('-100%');
 
-	function handleSearchBtnFront(e) {
+	function handleFormSearchEvent(e) {
+		console.log('formSeachClick');
 		e.preventDefault();
-		console.log('// Need to filter results with data from inputs');
-		setTopVal('0');
+		document.documentElement.style.setProperty('--container-modal-search--top', '0');
 	}
 
-	function handleCloseSearchModal() {
-		console.log('Close Modal');
-		setTopVal('-100%');
+	function updateFormData(location, guests) {
+		setLocationValue(location);
+		setGuestsValue(guests);
 	}
 
 	return (
 		<div>
-			<SearchModal fnOnClose={handleCloseSearchModal} />
-			<form className='flex sm:flex-row shadow rounded-xl ' onClick={handleSearchBtnFront}>
+			<SearchModal setSummaryData={setSummaryData} formData={updateFormData} />
+			<form className='flex sm:flex-row shadow rounded-xl ' onClick={handleFormSearchEvent}>
 				<div className='p-3 rounded-l-xl flex max-w-[150px] border-[1px] border-r-0 border-gray-200' >
-					<input className=' w-full text-sm focus:outline-none' type="text" placeholder='Helsinki, Finland' />
+					<input className=' w-full text-sm focus:outline-none' type="text" placeholder='Helsinki, Finland' value={locationValue} />
 				</div>
 				<div className='p-3 flex max-w-[150px] border-[1px] border-r-0 border-gray-200'>
-					<input className='w-full text-sm focus:outline-none' type="tel" placeholder='Add guests' />
+					<input className='w-full text-sm focus:outline-none' type="tel" placeholder='Add guests' value={guestsValue} />
 				</div>
 				<button className='p-3 rounded-r-xl max-w-min border-[1px] border-gray-200' type='submit'>
 					<svg style={{ width: '24px', height: '24px', fill: '#EB5757E5' }} viewBox="0 0 24 24">
@@ -42,7 +42,9 @@ function SearchMenu() {
 		</div>
 	)
 
-	function SearchModal({ fnOnClose }) {
+
+	function SearchModal({ setSummaryData, formData }) {
+
 		const [resultsLocations, setResultsLocations] = useState([])
 		const [displayLocationResults, setDisplayLocationResults] = useState('hidden');
 		const [displayGuestsResults, setDisplayGuestsResults] = useState('hidden');
@@ -53,6 +55,12 @@ function SearchMenu() {
 		const [counterAdults, setCounterAdults] = useState(0);
 		const [counterChildren, setCounterChildren] = useState(0);
 		const [counterGuests, setCounterGuests] = useState(0);
+
+
+		function handleCloseSearchModal() {
+			console.log('Close Modal');
+			document.documentElement.style.setProperty('--container-modal-search--top', '-100%');
+		}
 
 		useEffect(() => {
 			let results = inputContentLocation === '' ?
@@ -65,7 +73,8 @@ function SearchMenu() {
 			results = counterGuests === 0 ? results : results.filter(it => it.maxGuests === counterGuests);
 			setResultsLocations(results);
 
-			console.log(results);
+			console.log('SearchMenu.useEffect() #results ', results);
+
 		}, [inputContentLocation, counterGuests]);
 
 		function handleAdultsBtnMinus(e) {
@@ -106,7 +115,6 @@ function SearchMenu() {
 
 			if (counterChildren == 10) { alert('Max Children Guests is 10'); return; }
 			setCounterChildren((currentVal) => currentVal + 1);
-
 		}
 
 		function handleInputLocationEvent(e) {
@@ -132,7 +140,7 @@ function SearchMenu() {
 		function handleResultBtnLocation(e, it) {
 			e.preventDefault();
 			console.log(it);
-			setInputContentLocation(`${it.city}, ${it.country}`);
+			setInputContentLocation(`${it.city}`);
 			setPlaceholderGuests(`${it.maxGuests} (max guests)`);
 		}
 
@@ -152,16 +160,25 @@ function SearchMenu() {
 			res = counterGuests === 0 ? res : res.filter(it => it.maxGuests === counterGuests);
 
 			console.log('res: ', res);
+			setSummaryData({
+				stays: res,
+				total: res.length,
+				currentLocation: inputContentLocation,
+				guests: counterGuests
+			});
+
+			document.documentElement.style.setProperty('--container-modal-search--top', '-100%');
+			formData(inputContentLocation, counterGuests);
 		}
 
 		return (
-			<div className={`hidden absolute top-[${topVal}] right-0 left-0 p-4 bg-white border-2 border-red-400 flex flex-col min-h-[90vh] gap-6 `}>
+			<div className={'absolute right-0 left-0 p-4 bg-white z-50 flex flex-col min-h-[90vh] gap-6 container-modal-search'}>
 
 				{/* Edit your search */}
 
 				<div className='flex justify-between'>
 					<h2>Edit your search</h2>
-					<button onClick={fnOnClose}>
+					<button onClick={handleCloseSearchModal}>
 						<svg style={{ width: '24px', height: '24px' }} viewBox="0 0 24 24">
 							<path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
 						</svg>
@@ -176,14 +193,14 @@ function SearchMenu() {
 							<label htmlFor='location' className='text-[9px] uppercase font-bold'>location</label>
 							<input className='text-sm focus:outline-none border-none' type="text"
 								name='location' placeholder='Helsinki, Finland'
-								value={inputContentLocation}
+								defaultValue={inputContentLocation}
 								onChange={handleInputLocationEvent}
 								onClick={() => updateDisplayResult(TARGET_INPUT_LOCATION)} />
 						</div>
 						<div className='flex flex-col border-b-[1px] py-2 px-4 gap-2 md:flex-grow '>
 							<label className='text-[9px] uppercase font-bold'>guests</label>
 							<input className='text-sm focus:outline-none border-none' type="tel"
-								name='guests' placeholder={placeholderGuests} value={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
+								name='guests' placeholder={placeholderGuests} defaultValue={counterGuests === 0 ? '' : counterGuests} onClick={() => updateDisplayResult(TARGET_INPUT_GUESTS)} />
 						</div>
 
 						{/* Btn Submit Desktop  */}
