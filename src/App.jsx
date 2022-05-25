@@ -58,6 +58,10 @@ function App() {
 
 				</section>
 			</main>
+
+			<footer>
+				<p className="text-[#4f4f4f] text-center p-4 font-medium">created by <span className='font-bold'>houssam-developer</span> - devChallenges.io</p>
+			</footer>
 		</div>
 	)
 }
