@@ -5,8 +5,7 @@ import staysData from './data/stays.json';
 
 
 function App() {
-	const [currentTotal, setCurrentTotal] = useState(0);
-	const [totalVal, setTotalVal] = useState(0);
+	const [totalVal, setTotalVal] = useState(staysData.length);
 	const [staysVal, setStaysVal] = useState(staysData);
 	const [locationVal, setLocationVal] = useState('all countries');
 
@@ -18,10 +17,6 @@ function App() {
 		setLocationVal(currentLocation);
 	}
 
-	useEffect(() => {
-		setCurrentTotal(totalVal);
-	}, [currentTotal, totalVal, staysVal])
-
 	return (
 		<div className="relative flex flex-col gap-6  mx-auto ">
 			<Header setSummaryData={handleSummaryData} />
@@ -29,7 +24,7 @@ function App() {
 				<section className={`flex flex-col gap-8  w-full max-w-6xl mx-auto`}>
 					<div className='flex items-center justify-between'>
 						<h1 className='text-[16px] sm:text-[18px] md:text-[24px]'>Stays in {locationVal}</h1>
-						<span className='text-[12px] sm:text-[14px] text-[#4f4f4f]'>{currentTotal} total stays</span>
+						<span className='text-[12px] sm:text-[14px] text-[#4f4f4f]'>{totalVal} total stays</span>
 					</div>
 
 					<ul className='results-data gap-x-4 gap-y-10 md:gap-y-14'>
