@@ -8,13 +8,14 @@ function App() {
 	const [currentTotal, setCurrentTotal] = useState(0);
 	const [totalVal, setTotalVal] = useState(0);
 	const [staysVal, setStaysVal] = useState(staysData);
-	const [displayResults, setDisplayResults] = useState('hidden');
+	const [locationVal, setLocationVal] = useState('all countries');
 
-	function handleSummaryData({ total, stays }) {
-
+	function handleSummaryData({ total, stays, currentLocation }) {
 
 		setTotalVal(total);
 		setStaysVal(stays);
+		if (currentLocation === '') { setLocationVal('all countries'); return; }
+		setLocationVal(currentLocation);
 	}
 
 	useEffect(() => {
@@ -27,7 +28,7 @@ function App() {
 			<main className='flex flex-col gap-4 p-4 container-stays '>
 				<section className={`flex flex-col gap-8  w-full max-w-6xl mx-auto`}>
 					<div className='flex items-center justify-between'>
-						<h1 className='text-[16px] sm:text-[18px] md:text-[24px]'>Stays in currentCountry</h1>
+						<h1 className='text-[16px] sm:text-[18px] md:text-[24px]'>Stays in {locationVal}</h1>
 						<span className='text-[12px] sm:text-[14px] text-[#4f4f4f]'>{currentTotal} total stays</span>
 					</div>
 
