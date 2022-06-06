@@ -1,6 +1,6 @@
 <!-- Please update value in the {}  -->
 
-<h1 align="center">WinBnB Page</h1>
+<h1 align="center">WindBnB Page</h1>
 
 <div align="center">
    Solution for a challenge from  <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.
@@ -45,7 +45,6 @@ And I hope to make more beautifuls websites and become an expert in front-end de
 
 ### Built With
 
-<!-- This section should list any major frameworks that you built your project using. Here are a few examples.-->
 <!-- This section should list any major frameworks that you built your project using. Here are a few examples.-->
 
 - [HTML]
